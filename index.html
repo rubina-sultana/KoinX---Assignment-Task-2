@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Asset Balance</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <h1>Asset Balance</h1>
+  <form id="balance-form">
+    <label for="asset">Select an asset:</label>
+    <select id="asset" name="asset">
+      <option value="BTC">Bitcoin (BTC)</option>
+      <option value="MATIC">Polygon (MATIC)</option>
+      <!-- Add more options for other assets -->
+    </select>
+    <button type="submit">Get Balance</button>
+  </form>
+  <div id="balance-output"></div>
+
+  <script>
+    const form = document.getElementById('balance-form');
+    const outputDiv = document.getElementById('balance-output');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const asset = document.getElementById('asset').value;
+      try {
+        const response = await fetch(`http://localhost:4200/balance?asset=${asset}`);
+        const data = await response.json();
+        outputDiv.innerHTML = `The balance of ${asset} is ${data[asset]}.`;
+      } catch (error) {
+        outputDiv.innerHTML = `Error: ${error.message}`;
+      }
+    });
+  </script>
+</body>
+</html>
